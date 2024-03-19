@@ -1,0 +1,22 @@
+<div>
+  <h2>Tables</h2>
+  <div class="form" [formGroup]="form">
+    <div *ngFor="let table of tables; let i = index">
+      <label for="name">Dish for table{{table}}: </label>
+      <input id="name" type="text" formControlName="order">
+      <button (click)="onSubmit(i)">Add Order</button>
+    </div>
+  </div>
+  <ul *ngFor="let table of tables; let i = index">
+    <li>
+      Table {{ table }}:
+      <ul>
+        <li *ngFor="let order of orders[i]">
+          {{ order }}
+        </li>
+      </ul>
+      <div>Total Bill: Rs{{ calculateBill(i) }}</div>
+    </li>
+  </ul>
+  <div>Total Bill for all tables: Rs{{ calculateTotalBill() }}</div>
+</div>
