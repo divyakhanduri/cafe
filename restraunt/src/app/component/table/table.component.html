@@ -1,22 +1,38 @@
-<div>
-  <h2>Tables</h2>
-  <div class="form" [formGroup]="form">
-    <div *ngFor="let table of tables; let i = index">
-      <label for="name">Dish for table{{table}}: </label>
-      <input id="name" type="text" formControlName="order">
-      <button (click)="onSubmit(i)">Add Order</button>
-    </div>
+<div class="container">
+  <div class="menu">
+    <h2>Dishes Menu</h2>
+    <ul>
+      <li *ngFor="let item of menu">
+        {{ item.name }} - Rs{{ item.price }}
+      </li>
+    </ul>
   </div>
-  <ul *ngFor="let table of tables; let i = index">
-    <li>
-      Table {{ table }}:
+  <div class="orders">
+    <h2>Tables</h2>
+    <div class="form" [formGroup]="form">
+      <label for="selectedTable">Select Table Number:</label>
+      <select id="selectedTable" formControlName="selectedTable">
+        <option *ngFor="let table of tables" [value]="table">{{ table }}</option>
+      </select>
+      <label for="order">Select Dish:</label>
+      <select id="order" formControlName="order">
+        <option *ngFor="let item of menu" [value]="item.name">{{ item.name }}</option>
+      </select>
+      <button (click)="onSubmit()">Add Order</button>
+    </div>
+    <div *ngFor="let table of tables; let i = index">
+      <h3>Table {{ table }}</h3>
       <ul>
         <li *ngFor="let order of orders[i]">
           {{ order }}
         </li>
       </ul>
+      <button (click)="resetOrders(i)">Reset Table {{ table }}</button>
       <div>Total Bill: Rs{{ calculateBill(i) }}</div>
-    </li>
-  </ul>
-  <div>Total Bill for all tables: Rs{{ calculateTotalBill() }}</div>
+      <div *ngFor="let item of itemCounts[i]">
+        {{ item.name }} - Count: {{ item.count }}
+      </div>
+    </div>
+    <div>Total Bill for all tables: Rs{{ calculateTotalBill() }}</div>
+  </div>
 </div>
